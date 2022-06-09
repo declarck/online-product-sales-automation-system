@@ -1,0 +1,133 @@
+﻿@model OnlineUrunSatisWeb.Models.ShoppingCartVM
+@{
+    ViewData["Title"] = "Summary";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+<form method="post">
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3 row h5">
+                            Kullanıcı Bilgileri
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="inputName" class="col-sm-3 col-form-label">Ad</label>
+                            <div class="col-sm-9">
+                                <input type="text" asp-for="OrderHeader.Name" class="form-control" value="@Model.OrderHeader.ApplicationUser.Name" readonly>
+                                <span asp-validation-for="OrderHeader.Name" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="inputName" class="col-sm-3 col-form-label">Soyad</label>
+                            <div class="col-sm-9">
+                                <input type="text" asp-for="OrderHeader.Surname" class="form-control" value="@Model.OrderHeader.ApplicationUser.Surname" readonly>
+                                <span asp-validation-for="OrderHeader.Surname" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="inputName" class="col-sm-3 col-form-label">E-Posta</label>
+                            <div class="col-sm-9">
+                                <input type="text" asp-for="OrderHeader.Email" class="form-control" value="@Model.OrderHeader.ApplicationUser.Email" readonly>
+                                <span asp-validation-for="OrderHeader.Email" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="inputName" class="col-sm-3 col-form-label">Telefon</label>
+                            <div class="col-sm-9">
+                                <input type="text" asp-for="OrderHeader.Phone" class="form-control" value="@Model.OrderHeader.ApplicationUser.PhoneNumber" readonly>
+                                <span asp-validation-for="OrderHeader.Phone" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="mb-3 row h5">
+                            Adres Bilgileri
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="inputName" class="col-sm-3 col-form-label">İl</label>
+                            <div class="col-sm-9">
+                                <input type="text" asp-for="OrderHeader.City" class="form-control" value="@Model.OrderHeader.ApplicationUser.City">
+                                <span asp-validation-for="OrderHeader.City" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="inputName" class="col-sm-3 col-form-label">İlçe</label>
+                            <div class="col-sm-9">
+                                <input type="text" asp-for="OrderHeader.District" class="form-control" value="@Model.OrderHeader.ApplicationUser.District">
+                                <span asp-validation-for="OrderHeader.District" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="inputName" class="col-sm-3 col-form-label">Adres</label>
+                            <div class="col-sm-9">
+                                <input type="text" asp-for="OrderHeader.Address" class="form-control" value="@Model.OrderHeader.ApplicationUser.Address">
+                                <span asp-validation-for="OrderHeader.Address" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="inputName" class="col-sm-3 col-form-label">Posta Kodu</label>
+                            <div class="col-sm-9">
+                                <input type="text" asp-for="OrderHeader.PostCode" class="form-control" value="@Model.OrderHeader.ApplicationUser.PostCode">
+                                <span asp-validation-for="OrderHeader.PostCode" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="col-md-12">
+                            <div class="mb-3 row h5">
+                                Sepet İçeriği
+                            </div>
+                            @*<h5 class="d-flex justify-content-between align-items-center mb-3">
+                                <span class="text-primary">Sepet İçeriği</span>
+                                @{
+                                    var count = HttpContextAccessor.HttpContext.Session.GetInt32(Other.ssShoppingCart);
+                                }
+                                <span class="badge bg-primary rounded-pill text-white">@count</span>
+                            </h5>*@
+                            <ul class="list-group mb-3">
+                                @foreach (var item in Model.ListCart)
+                                {
+                                    <li class="list-group-item d-flex justify-content-between lh-sm">
+                                        <div>
+                                            <h6 class="my-0">@item.Product.Brand @item.Product.Model @item.Product.Year</h6>
+                                            <small class="text-muted">@item.Count Adet</small>
+                                        </div>
+                                        <span class="text-muted">₺ @((item.Count*item.Product.Sale).ToString("0.00"))</span>
+                                    </li>
+                                }
+                                <li class="list-group-item d-flex justify-content-between lh-sm">
+                                    <div class="text-success">
+                                        <h6 class="my-0">Toplam Tutar</h6>
+                                    </div>
+                                    @*<button type="button" class="btn btn-lg btn-primary" disabled>
+                    ₺ @Model.OrderHeader.OrderTotal.ToString("0.00")
+                </button>*@
+                                    <span class="text-success" style="font-weight: bold;">₺ @(Model.OrderHeader.OrderTotal.ToString("0.00"))</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="row">
+                    <div class="col-md-6">
+
+                    </div>
+                    <div class="col-md-6">
+                        <button type="submit" class="btn btn-success form-control">Siparişi Tamamla</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts{ 
+<partial name="_ValidationScriptsPartial" />
+}
+

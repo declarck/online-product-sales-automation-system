@@ -1,0 +1,108 @@
+﻿@model OnlineUrunSatisWeb.Models.ShoppingCartVM
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<form method="post">
+    @if (Model.ListCart.Count() > 0)
+    {
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-striped table-bordered" id="myTable">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Görsel
+                                </th>
+                                <th>
+                                    Marka
+                                </th>
+                                <th>
+                                    Model
+                                </th>
+                                <th>
+                                    Yıl
+                                </th>
+                                <th>
+                                    Fiyat
+                                </th>
+                                <th>
+                                    Adet
+                                </th>
+                                <th>
+                                    Tutar
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.ListCart)
+                            {
+                                <tr>
+                                    <td>
+                                        <img src="@item.Product.Image" width="100" />
+                                    </td>
+                                    <td>
+                                        @item.Product.Brand
+                                    </td>
+                                    <td>
+                                        @item.Product.Model
+                                    </td>
+                                    <td>
+                                        @item.Product.Year
+                                    </td>
+                                    <td>
+                                        ₺ @item.Product.Sale.ToString("0.00")
+                                    </td>
+                                    <td>
+                                        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                                            <div class="btn-group me-2" role="group" aria-label="First group">
+                                                <input type="text" value="@item.Count" style="max-width:45px;" class="form-control" />
+                                                <button asp-action="Decrease" asp-route-cartId="@item.Id" class="btn btn-danger"><i class="bi bi-dash-lg"></i></button>
+                                                <button asp-action="Increase" asp-route-cartId="@item.Id" class="btn btn-success"><i class="bi bi-plus-lg"></i></button>
+                                                <button asp-action="Remove" asp-route-cartId="@item.Id" class="btn btn-danger"><i class="bi bi-trash"></i></button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        ₺ @((item.Product.Sale*item.Count).ToString("0.00"))
+                                    </td>
+                                </tr>
+                            }
+                            <tr>
+                                <td colspan="6" style="text-align:right; vertical-align:middle">
+                                    <strong>TOPLAM TUTAR</strong>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-lg btn-primary" disabled>
+                                        ₺ @Model.OrderHeader.OrderTotal.ToString("0.00")
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <a asp-area="Customer" asp-controller="Home" asp-action="Index" class="btn btn-secondary form-control">Alışverişe Devam Et</a>
+                        </div>
+                        <div class="col-md-4">
+
+                        </div>
+                        <div class="col-md-4">
+                            <a asp-area="Customer" asp-controller="Cart" asp-action="Summary" class="btn btn-success form-control">Sipariş Ver</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div>
+            <h3>Sepetinizde ürün bulunmamaktadır.</h3>
+            <h5>Lütfen öncelikle sepetinize en az bir ürün ekleyiniz.</h5>
+        </div>
+    }
+</form>
+

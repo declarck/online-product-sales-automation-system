@@ -1,0 +1,128 @@
+﻿@model IEnumerable<OnlineUrunSatisWeb.Models.Product>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>Ürünler</h3>
+<br />
+<div class="container">
+    <p>
+        <a asp-action="Create" class="btn btn-primary">Ürün Ekle</a>
+    </p>
+    <table class="table table-striped table-bordered" id="myTable">
+        <thead>
+            <tr>
+                <th>
+                    Görsel
+                </th>
+                <th>
+                    Kategori
+                </th>
+                <th>
+                    Marka
+                </th>
+                <th>
+                    Model
+                </th>
+                <th>
+                    Yıl
+                </th>
+                <th>
+                    Adet
+                </th>
+                <th>
+                    Alış (₺)
+                </th>
+                <th>
+                    Satış (₺)
+                </th>
+                <th>
+                    Anasayfa
+                </th>
+                <th>
+                    Stok
+                </th>
+                <th>
+
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @if (item.Image == null)
+                    {
+                        <img src="~/images/image/noimagemini.jpg" width="100"/>
+                    }
+                    else
+                    {
+                        <img src="@item.Image" width="100"/>
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Brand)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Model)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Year)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Number)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Purchase)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Sale)
+                </td>
+                <td>
+                    @if (item.IsHome)
+                    {
+                        <label><i class="bi bi-check-lg"></i> Göster</label>
+                    }
+                    else
+                    {
+                        <label><i class="bi bi-x-lg"></i> Gösterme</label>
+                    }
+                </td>
+                <td>
+                    @if (item.IsStock)
+                    {
+                        <label><i class="bi bi-check-lg"></i> Var</label>
+                    }
+                    else
+                    {
+                        <label><i class="bi bi-x-lg"></i> Yok</label>
+                    }
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-info" style="width:100%; margin:1px"><i class="bi bi-info-circle"></i> Detay</a><br />
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-success" style="width: 100%; margin: 1px"><i class="bi bi-pencil"></i> Düzenle</a><br />
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger" style="width: 100%; margin: 1px"><i class="bi bi-trash"></i> Sil</a>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+    $(document).ready(function () {
+        $('#myTable').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Turkish.json"
+            }
+        });
+    });
+    </script>
+}

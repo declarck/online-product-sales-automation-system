@@ -1,0 +1,119 @@
+﻿@model OnlineUrunSatisWeb.Models.Product
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4>Ürün Sil</h4>
+<hr />
+<h6>Bu ürünü silmek istediğinize emin misiniz?</h6>
+<br />
+<div class="row">
+    <div class="col-md-4">
+        <dl class="row">
+            <dt class="col-sm-3">
+                Kategori
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.Category.Name)
+            </dd>
+            <dt class="col-sm-3">
+                Marka
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.Brand)
+            </dd>
+            <dt class="col-sm-3">
+                Model
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.Model)
+            </dd>
+            <dt class="col-sm-3">
+                Yıl
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.Year)
+            </dd>
+            <dt class="col-sm-3">
+                Adet
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.Number)
+            </dd>
+            <dt class="col-sm-3">
+                Alış (₺)
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.Purchase)
+            </dd>
+            <dt class="col-sm-3">
+                Satış (₺)
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.Sale)
+            </dd>
+            <dt class="col-sm-3">
+                Anasayfa
+            </dt>
+            <dd class="col-sm-9">
+                @if (Model.IsHome)
+                {
+                    <label class=" btn btn-success" btn-sm><i class="bi bi-check-lg"></i></label>
+                }
+                else
+                {
+                    <label class=" btn btn-danger" btn-sm><i class="bi bi-x-lg"></i></label>
+                }
+            </dd>
+            <dt class="col-sm-3">
+                Stok
+            </dt>
+            <dd class="col-sm-9">
+                @if (Model.IsStock)
+                {
+                    <label class=" btn btn-success" btn-sm><i class="bi bi-check-lg"></i></label>
+                }
+                else
+                {
+                    <label class=" btn btn-danger" btn-sm><i class="bi bi-x-lg"></i></label>
+                }
+            </dd>
+        </dl>
+    </div>
+    <div class="col-md-4">
+        <dl class="row">
+            <dt class="col-sm-3">
+                Açıklama
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+        </dl>
+    </div>
+    <div class="col-md-4">
+        <dl class="row">
+            <dt class="col-sm-3">
+                Görsel
+            </dt>
+            <dd class="col-sm-9">
+                @if (Model.Image == null)
+                {
+                    <img src="~/images/image/noimagemini.jpg" width="250" height="250" />
+                }
+                else
+                {
+                    <img src=@Model.Image width="250" height="250" />
+                }
+            </dd>
+        </dl>
+    </div>
+</div>
+<div>
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Sil" class="btn btn-danger" />
+        <a asp-action="Index" class="btn btn-secondary">Listeye Geri Dön</a>
+    </form>
+</div>

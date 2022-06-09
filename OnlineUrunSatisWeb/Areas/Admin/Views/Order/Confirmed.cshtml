@@ -1,0 +1,112 @@
+﻿@model IEnumerable<OnlineUrunSatisWeb.Models.OrderHeader>
+@{
+    ViewData["Title"] = "Confirmed";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="btn-group d-grid gap-2 d-md-flex justify-content-md-end" role="group" aria-label="Basic outlined example">
+    <a asp-area="Admin" asp-controller="Order" asp-action="OnHold" type="button" class="btn btn-outline-primary">Bekleyen Siparişler</a>
+    <a asp-area="Admin" asp-controller="Order" asp-action="Confirmed" type="button" class="btn btn-outline-primary active">Onaylanan Siparişler</a>
+    <a asp-area="Admin" asp-controller="Order" asp-action="Shipped" type="button" class="btn btn-outline-primary">Kargolanan Siparişler</a>
+    <a asp-area="Admin" asp-controller="Order" asp-action="Index" type="button" class="btn btn-outline-primary">Tüm Siparişler</a>
+</div>
+<br />
+<div class="container">
+    <table class="table table-striped table-bordered" id="myTable">
+        <thead>
+            <tr>
+                @if (User.IsInRole(Other.Role_Admin))
+                {
+                    <th>
+                        Ad
+                    </th>
+                    <th>
+                        Soyad
+                    </th>
+                    <th>
+                        Telefon
+                    </th>
+                }
+                <th>
+                    Sipariş Tarihi
+                </th>
+                <th>
+                    Sipariş Tutarı
+                </th>
+                <th>
+                    Durum
+                </th>
+                <th>
+
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    @if (User.IsInRole(Other.Role_Admin))
+                    {
+                        <td>
+                            @item.Name
+                        </td>
+                        <td>
+                            @item.Surname
+                        </td>
+                        <td>
+                            @item.Phone
+                        </td>
+                    }
+                    <td>
+                        @item.OrderDate
+                    </td>
+                    <td>
+                        ₺ @item.OrderTotal.ToString("0.00")
+                    </td>
+                    @if (@item.OrderStatus.ToString() == "OnHold")
+                    {
+                        <td>
+                            Beklemede
+                        </td>
+                    }
+                    else if (@item.OrderStatus.ToString() == "Confirmed")
+                    {
+                        <td>
+                            Onaylandı
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            Kargolandı
+                        </td>
+                    }
+                    <td>
+                        @if (User.IsInRole(Other.Role_Admin))
+                        {
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-success"><i class="bi bi-pencil"></i> Düzenle</a>
+                        }
+                        else
+                        {
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-success"><i class="bi bi-pencil"></i> Detay</a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#myTable').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Turkish.json"
+                }
+            });
+        });
+    </script>
+}
+
+
