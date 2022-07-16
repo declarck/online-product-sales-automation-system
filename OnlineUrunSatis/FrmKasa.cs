@@ -145,7 +145,7 @@ namespace OnlineUrunSatis
             }
             conn.baglanti().Close();
 
-            //Toplam Gider
+            //Bu Ay Toplam Gider
             SqlCommand komut4 = new SqlCommand("SELECT SUM(Cost) FROM Expenses WHERE Date BETWEEN (DATEADD(m, DATEDIFF(m, 0, GETDATE()), 0)) AND (DATEADD(m, DATEDIFF(m, -1, GETDATE()), 0))", conn.baglanti());
             SqlDataReader drbuaygider = komut4.ExecuteReader();
             while (drbuaygider.Read())
